@@ -1,0 +1,13 @@
+{
+  "name": "twitter-api-test",
+  "version": "1.0.0",
+  "description": "A simple test of HTTP GET response from twitter search API",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava -s index.js"
+  },
+  "author": "Fisher Dong",
+  "devDependencies": {
+    "ava": "~0.25.0"
+  }
+}
