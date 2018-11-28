@@ -6,8 +6,9 @@ const oauthKeys = require('./oauth');
 const getOauthString = require('./getoauthstring');
 const getOauthSignature = require('./getoauthsignature');
 const get = require('./promisifyget.js');
+const crypto = require('crypto');
 
-const randomData = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+const randomData = crypto.randomBytes(32).toString('base64');
 
 oauthKeys["oauth_timestamp"] = Math.floor((new Date().getTime() / 1000)).toString();
 oauthKeys["oauth_nonce"] = randomData;
@@ -16,10 +17,10 @@ oauthKeys["oauth_signature"] = getOauthSignature(query, oauthKeys);
 const options = {
     hostname: 'api.twitter.com',
     path: `/1.1/search/tweets.json?q=${query.q}&count=${query.count}`,
-    headers: {}
+    headers: {
+      'Authorization': getOauthString(oauthKeys)
+    }
 };
-
-options.headers["Authorization"] = getOauthString(oauthKeys);
 
 test('Get twitter search API test', async t => {
     const [body, statusCode] = await get(options);
@@ -27,8 +28,8 @@ test('Get twitter search API test', async t => {
 
     t.is(statusCode, 200, 'status code should be 200 for a successful GET');
 
-    if (!parsedBody.truncated) {
+    if (!(parsedBody.truncated) && !(parsedBody.retweeted)) {
         console.log(parsedBody.text);
-        t.true(/\bTesla\b/.test(parsedBody.text), 'response text should include string "Tesla".');
+        t.true(/\bTesla\b/i.test(parsedBody.text), 'response text should include string "Tesla".');
     }
 });
