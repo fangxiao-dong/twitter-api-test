@@ -8,6 +8,7 @@
   },
   "author": "Fisher Dong",
   "devDependencies": {
-    "ava": "~0.25.0"
+    "ava": "~0.25.0",
+    "moment": "^2.22.2"
   }
 }

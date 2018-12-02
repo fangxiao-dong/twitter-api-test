@@ -7,11 +7,13 @@ const getOauthString = require('./getoauthstring');
 const getOauthSignature = require('./getoauthsignature');
 const get = require('./promisifyget.js');
 const crypto = require('crypto');
+const moment = require('moment');
 
 const randomData = crypto.randomBytes(32).toString('base64');
-
-oauthKeys["oauth_timestamp"] = Math.floor((new Date().getTime() / 1000)).toString();
 oauthKeys["oauth_nonce"] = randomData;
+
+// oauthKeys["oauth_timestamp"] = Math.floor((new Date().getTime() / 1000)).toString();
+oauthKeys["oauth_timestamp"] = (moment() / 1000);
 oauthKeys["oauth_signature"] = getOauthSignature(query, oauthKeys);
 
 const options = {
