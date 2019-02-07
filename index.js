@@ -1,24 +1,23 @@
 'use strict';
 
 const test = require('ava');
-const query = require('./meta');
-const oauthKeys = require('./oauth');
-const getOauthString = require('./getoauthstring');
-const getOauthSignature = require('./getoauthsignature');
-const get = require('./promisifyget.js');
+const query = require('./configs/meta');
+const oauthKeys = require('./constants/oauth');
+const getOauthString = require('./lib/getoauthstring');
+const getOauthSignature = require('./lib/getoauthsignature');
+const get = require('./lib/promisifyget.js');
 const crypto = require('crypto');
 const moment = require('moment');
 
 const randomData = crypto.randomBytes(32).toString('base64');
-oauthKeys['oauth_nonce'] = randomData;
 
-// oauthKeys["oauth_timestamp"] = Math.floor((new Date().getTime() / 1000)).toString();
+oauthKeys['oauth_nonce'] = randomData;
 oauthKeys['oauth_timestamp'] = (moment() / 1000);
 oauthKeys['oauth_signature'] = getOauthSignature(query, oauthKeys);
 
 const options = {
   hostname: 'api.twitter.com',
-  path: `/1.1/search/tweets.json?q=${query.q}&count=${query.count}`,
+  path: `/1.1/search/tweets.json?q=${query.q}&count=${query.count}&locale=${query.locale}`,
   headers: {
     'Authorization': getOauthString(oauthKeys)
   }
@@ -32,6 +31,6 @@ test('Get twitter search API test', async t => {
 
   if (!(parsedBody.truncated) && !(parsedBody.retweeted)) {
     console.log(parsedBody.text);
-    t.true(/\bTesla\b/i.test(parsedBody.text), 'response text should include string "Tesla".');
+    t.true(/\bTesla\b/i.test(parsedBody.text), 'response text should include querying keywoards.');
   }
 });

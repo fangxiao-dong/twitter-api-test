@@ -4,7 +4,7 @@
   "description": "A simple test of HTTP GET response from twitter search API",
   "main": "index.js",
   "scripts": {
-    "test": "ava -s index.js"
+    "test": "ava -sv index.js"
   },
   "author": "Fisher Dong",
   "devDependencies": {
