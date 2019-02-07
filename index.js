@@ -29,7 +29,7 @@ test('Get twitter search API test', async t => {
 
   t.is(statusCode, 200, 'status code should be 200 for a successful GET');
 
-  if (!(parsedBody.truncated) && !(parsedBody.retweeted)) {
+  if (!(parsedBody.truncated)) {
     console.log(parsedBody.text);
     t.true(/\bTesla\b/i.test(parsedBody.text), 'response text should include querying keywoards.');
   }
