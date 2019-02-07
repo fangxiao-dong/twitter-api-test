@@ -1,4 +1,4 @@
-#Twitter-Api-Test
+# Twitter-Api-Test
 
 This is a simple GET test for the twitter [search API](https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html) with Oauth authentication. The test is written in Node.js and asserts:
 
@@ -9,7 +9,7 @@ The default query keyword is `@Telsa` but is parametrized in the `configs/meta.j
 
 This is merely a play with the twitter search API. We can further expand this to do more fun things. For example, we can use this to do analysis of most frequently used words in tweets from famous person who likes to tweet frequently.
 
-##Usage:
+## Usage:
 
 Make sure you have Node.js 8 installed since this project uses promisify for the http(s) request. In the project root directory, run:
 
